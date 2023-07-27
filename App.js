@@ -6,23 +6,55 @@ export default class App extends Component{
     super(props)
     this.state = {
       larAnimada: new Animated.Value(150),
-      altAnimada: new Animated.Value(50)
+      altAnimada: new Animated.Value(50),
+      opacidadeAnimada: new Animated.Value(0)
     }
 
-    Animated.timing(
-      this.state.larAnimada,
-      {
-        toValue: 250,
-        duration: 2000
-      }
-    ).start();
+
+    Animated.sequence([
+
+      Animated.timing(
+        this.state.opacidadeAnimada,
+        {
+          toValue: 1,
+          duration: 1500
+        }
+      ),
+      Animated.parallel(
+        Animated.timing(
+          this.state.larAnimada,
+          {
+            toValue: 300,
+            duration: 2000
+          }
+        ),
+
+        Animated.timing(
+          this.state.altAnimada,
+          {
+            toValue: 300,
+            duration: 2000
+          }
+        )
+      )
+
+    ]).start();
+
+
+    // Animated.timing(
+    //   this.state.larAnimada,
+    //   {
+    //     toValue: 250,
+    //     duration: 2000
+    //   }
+    // ).start();
 
   }
 
   render(){
     return(
       <View style={styles.container}>
-        <Animated.View style={{width: this.state.larAnimada, height: this.state.altAnimada, backgroundColor: '#4169E1', justifyContent: 'center'}}>
+        <Animated.View style={{opacity: this.state.opacidadeAnimada ,width: this.state.larAnimada, height: this.state.altAnimada, backgroundColor: '#4169E1', justifyContent: 'center'}}>
           <Text style={{color: '#FFF', textAlign: 'center', fontSize: 22}}>Carregando...</Text>
         </Animated.View>
       </View>
